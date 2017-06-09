@@ -19,6 +19,9 @@
         </base-layout>
     </div>
 
+    <div id="user" style="visibility: hidden">
+        {{Auth::user()}}
+    </div>
 
     <script src="{{ asset('js/app.js') }}" ></script>
 

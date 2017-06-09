@@ -13,8 +13,13 @@ class CreateProjectsTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable("projects")){return;}
+
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer("user_id");
+            $table->string("title", 50);
+            $table->text("description");
             $table->timestamps();
         });
     }

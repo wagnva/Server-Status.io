@@ -8,21 +8,41 @@
 </template>
 
 <script>
-
-    //component that loads data and shows spinner while doing so
-    //abstract
-    //event method: to-load (what should be loaded) -> should return promises
-    //event method: is-finished (called when finished)
-    //allows this component to be used for the general preloading
-    //and also when loading other small stuff in the pages
-
     export default {
         mounted(){
-            const toBeLoaded = this.$emit("to-load");
-            console.log(toBeLoaded);
+            const toBeLoaded = this.toLoad();
+            const keys = Object.keys(toBeLoaded);
+            const values = Object.values(toBeLoaded);
+
+            //go through every promise
+            Promise.all(values)
+                .then((responses) => {
+                    //go through all the responses
+                    responses.forEach((response, index) => {
+
+                        const data = response.data;
+
+                        //call the mutations method (key)
+                        this.$store.commit(keys[index], data);
+
+                    });
+
+                    //call the finish function
+                    this.isFinished();
+                });
+
+        },
+        props: {
+            toLoad: {
+                type: Function,
+                required: true
+            },
+            isFinished: {
+                type: Function,
+                required: true
+            }
         }
     }
-    //["to-load", "is-finished"]
 </script>
 
 <style lang="scss" scoped>
