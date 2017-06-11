@@ -20,4 +20,14 @@ class User extends Authenticatable
     public function projects(){
         return $this->hasMany(Project::class);
     }
+
+    /**
+     * Creates a new project for this user
+     * @param Project $project
+     * @return Project returns the added project
+     */
+    public function newProject(Project $project){
+        $this->projects()->save($project);
+        return $project;
+    }
 }

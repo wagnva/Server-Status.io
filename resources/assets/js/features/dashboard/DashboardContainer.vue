@@ -2,7 +2,7 @@
     <div>
         <v-layout row wrap class="negative-margin">
             <template v-for="(project, index) in projects">
-                <v-flex xs12 sm12 md6 xl4>
+                <v-flex xs12 sm12 md6 xl4 :key="index">
                     <project-preview-card
                             :project="project"
                             class="mt-4">
@@ -20,12 +20,9 @@
         components: {
             ProjectPreviewCard
         },
-        computed: {
-            projects(){
-                return this.$store.state.projects.data;
-            }
-        }
-
+        computed: mapState({
+            projects: (state) => state.projects.data
+        })
     }
 </script>
 

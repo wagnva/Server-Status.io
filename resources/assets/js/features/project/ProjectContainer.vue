@@ -1,11 +1,10 @@
 <template>
-    <div>
-        This is the Project Overview page
-    </div>
+    <div>Projects Container</div>
 </template>
 
 <script>
-    export default{
+    export default {
 
     }
 </script>
+

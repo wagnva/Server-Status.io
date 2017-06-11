@@ -5,6 +5,7 @@
             light
             :mini-variant.sync="mini"
             v-model="sidebarOpen"
+            v-on:input="drawerChange"
             enable-resize-watcher>
 
         <v-list class="pa-0">
@@ -65,6 +66,10 @@
                 this.$router.push({
                     name: name
                 });
+            },
+            drawerChange(param){
+                ///called when the drawer state changes
+                this.$store.commit("setSidebar", param);
             }
         },
         computed: mapState({

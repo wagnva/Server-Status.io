@@ -37,4 +37,30 @@ class ProjectControllerTest extends TestCase
         $response
             ->assertExactJson($projects->toArray());
     }
+
+    public function testProjectCanBeCreated(){
+
+        $project = [
+            "title" => "New Project",
+            "description" => "Project Description that is a long text"
+        ];
+
+        //get all projects before we add the new one
+        $allBefore = json_decode($this->json("GET", "api/v1/projects")->content());
+
+        //add the new project
+        $response = $this->call("POST", "api/v1/projects", $project);
+
+        //make sure a new one was actually added
+        $allAfter = json_decode($this->json("GET", "api/v1/projects")->content());
+
+        $response->assertJsonFragment([
+            "error" => "false",
+            "msg" => "Project was created"
+        ]);
+
+
+        $this->assertCount((count($allBefore) + 1), $allAfter);
+    }
+
 }
