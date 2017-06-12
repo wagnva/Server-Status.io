@@ -10,6 +10,7 @@
                 </span>
 
                 <v-spacer></v-spacer>
+
             </v-card-title>
         </v-card-row>
 

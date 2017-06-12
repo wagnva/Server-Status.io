@@ -11621,13 +11621,13 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component("snackbar-manager", __webp
 /*
     Setup the router
  */
-var Containers = {
+const Containers = {
     Dashboard: __webpack_require__(54),
     Project: __webpack_require__(58),
     NewProject: __webpack_require__(57)
 };
 
-var routerInstance = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
+const routerInstance = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
     routes: [{
         path: "/",
         name: "home",
@@ -11659,7 +11659,7 @@ $userdiv.remove();
     Start the App
  */
 
-var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
+const app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     router: routerInstance,
     store: __WEBPACK_IMPORTED_MODULE_5__store__["a" /* default */]
 }).$mount("#app");
@@ -12540,40 +12540,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
+    data() {
         return {};
     },
-
     methods: {
-        hide: function hide(index) {
+        hide(index) {
             this.$store.commit("snackbar/remove", {
                 index: index
             });
         },
-        msg: function msg(_msg) {
-            if (this.is.String(_msg)) {
-                return _msg;
+        msg(msg) {
+            if (this.is.String(msg)) {
+                return msg;
             }
-            if (this.is.Array(_msg)) {
-                return _msg.reduce(function (full, element) {
-                    return full + element + "<br>";
-                });
+            if (this.is.Array(msg)) {
+                return msg.reduce((full, element) => full + element + "<br>");
             }
         },
-        timeoutFix: function timeoutFix(index) {
-            var _this = this;
-
+        timeoutFix(index) {
             //since the timeout of the snackbar doesnt seem to work
             ///manually remove it after the specified time
-            setTimeout(function () {
-                return _this.hide(index);
-            }, this.$store.state.snackbar.all[index].timeout);
+            setTimeout(() => this.hide(index), this.$store.state.snackbar.all[index].timeout);
         }
     },
     computed: mapState({
-        all: function all(state) {
-            return state.snackbar.all;
-        }
+        all: state => state.snackbar.all
     })
 });
 
@@ -12608,9 +12599,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         ProjectPreviewCard: __WEBPACK_IMPORTED_MODULE_0__ProjectPreviewCard_vue___default.a
     },
     computed: mapState({
-        projects: function projects(state) {
-            return state.projects.data;
-        }
+        projects: state => state.projects.data
     })
 });
 
@@ -12643,18 +12632,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
+    data() {
         return {};
     },
-
     methods: {
-        redirectToProjectPage: function redirectToProjectPage() {
+        redirectToProjectPage() {
             //click listener on the project preview card
             //redirects to the project overview page
 
-            var id = this.project.id;
+            const id = this.project.id;
             this.$router.push({
                 name: "project",
                 params: { id: id }
@@ -12686,29 +12675,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        var _this = this;
-
-        var toBeLoaded = this.toLoad();
-        var keys = Object.keys(toBeLoaded);
-        var values = Object.values(toBeLoaded);
+    mounted() {
+        const toBeLoaded = this.toLoad();
+        const keys = Object.keys(toBeLoaded);
+        const values = Object.values(toBeLoaded);
 
         //go through every promise
-        Promise.all(values).then(function (responses) {
+        Promise.all(values).then(responses => {
             //go through all the responses
-            responses.forEach(function (response, index) {
+            responses.forEach((response, index) => {
 
-                var data = response.data;
+                const data = response.data;
 
                 //call the mutations method (key)
-                _this.$store.commit(keys[index], data);
+                this.$store.commit(keys[index], data);
             });
 
             //call the finish function
-            _this.isFinished();
+            this.isFinished();
         });
     },
-
     props: {
         toLoad: {
             type: Function,
@@ -12777,7 +12763,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
+    data() {
         return {
             title: "",
             description: "",
@@ -12785,10 +12771,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             loading: false
         };
     },
-
     methods: {
-        onSubmit: function onSubmit(event) {
-            var _this = this;
+        onSubmit(event) {
 
             if (this.is.notEmpty(this.title) && this.is.notEmpty(this.description)) {
                 event.preventDefault();
@@ -12798,10 +12782,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.$store.dispatch("projects/create", {
                     title: this.title,
                     description: this.description,
-                    cb: function cb(promise) {
-                        promise.then(function () {
-                            _this.loading = false;
-                            _this.$router.push({
+                    cb: promise => {
+                        promise.then(() => {
+                            this.loading = false;
+                            this.$router.push({
                                 name: "project",
                                 params: { id: 1 //todo fix
                                 } });
@@ -12878,22 +12862,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
+    data() {
         return {
             loading: true
         };
     },
-
     methods: {
-        switchSidebar: function switchSidebar() {
+        switchSidebar() {
             this.$store.commit("switchSidebar");
         },
-        preLoad: function preLoad() {
+        preLoad() {
             return {
                 "projects/set": this.$http.get("projects")
             };
         },
-        isFinished: function isFinished() {
+        isFinished() {
             console.log(this.$store.state.projects.data);
             this.loading = false;
         }
@@ -12910,6 +12893,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__SideBarItem_vue__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__SideBarItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__SideBarItem_vue__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 //
 //
 //
@@ -12954,44 +12941,150 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
+    data() {
         return {
-            mini: false,
-            items: [{ title: 'Home', icon: 'dashboard', name: "home" }, { title: 'About', icon: 'question_answer', name: "home" }]
+            mini: false
         };
     },
-
     methods: {
-        linksTo: function linksTo(name) {
+        linksTo(name, params) {
             //just links to the name supplied
             this.$router.push({
-                name: name
+                name: name,
+                params: params || {}
             });
         },
-        drawerChange: function drawerChange(param) {
+        drawerChange(param) {
             ///called when the drawer state changes
             this.$store.commit("setSidebar", param);
+
+            console.log(this.items);
         }
     },
-    computed: mapState({
-        username: function username(state) {
-            return state.user.name;
-        },
-        sidebarOpen: function sidebarOpen(state) {
-            return state.sidebarOpen;
+    computed: _extends({}, mapState({
+        username: state => state.user.name,
+        sidebarOpen: state => state.sidebarOpen,
+        projects: state => state.projects.data
+    }), {
+        projectsLinks() {
+            return this.projects.map(element => {
+                return {
+                    title: element.title,
+                    icon: "dashboard",
+                    name: "project",
+                    params: { id: element.id }
+                };
+            });
         }
-    })
+    }),
+    components: {
+        "sidebar-item": __WEBPACK_IMPORTED_MODULE_0__SideBarItem_vue___default.a
+    }
 
-    //["user/name", "sidebarOpen"]
+    /*
+    
+     <template v-for="(item, i) in items">
+    
+     <!-- If header item -->
+     <v-layout
+     row
+     v-if="item.heading"
+     align-center
+     :key="i">
+    
+     <v-flex xs6>
+     <v-subheader v-if="item.heading">
+     {{ item.heading }}
+     </v-subheader>
+     </v-flex>
+     </v-layout>
+    
+     <!-- If the item has children -->
+     <v-list-group
+     v-else-if="item.children"
+     v-model="item.model"
+     no-action>
+    
+     <!-- Header for child elements -->
+     <v-list-item slot="item" >
+     <v-list-tile>
+     <v-list-tile-action>
+     <v-icon v-if="item.model">
+     {{item.icon}}
+     </v-icon>
+     <v-icon v-else>
+     {{item.iconAlt}}
+     </v-icon>
+     </v-list-tile-action>
+     <v-list-tile-content>
+     <v-list-tile-title>
+     {{ item.text }}
+     </v-list-tile-title>
+     </v-list-tile-content>
+     </v-list-tile>
+     </v-list-item>
+    
+     <!-- All the child elements -->
+     <v-list-item
+     v-for="(child, i) in item.children"
+     :key="i"
+     v-on:click="linksTo(child.name, child.params)">
+    
+     <v-list-tile>
+     <v-list-tile-action v-if="child.icon">
+     <v-icon>{{ child.icon }}</v-icon>
+     </v-list-tile-action>
+     <v-list-tile-content>
+     <v-list-tile-title>
+     {{ child.text }}
+     </v-list-tile-title>
+     </v-list-tile-content>
+     </v-list-tile>
+    
+     </v-list-item>
+     </v-list-group>
+    
+     <!-- If the item has no children -->
+     <v-list-item v-else v-on:click="linksTo(item.name, item.params)">
+     <v-list-tile>
+     <v-list-tile-action>
+     <v-icon>{{ item.icon }}</v-icon>
+     </v-list-tile-action>
+     <v-list-tile-content>
+     <v-list-tile-title>
+     {{ item.text }}
+     </v-list-tile-title>
+     </v-list-tile-content>
+     </v-list-tile>
+     </v-list-item>
+     </template>
+    
+     {{ item.model ? item.icon : item.iconAlt }}
+     <v-list class="pt-0" dense>
+    
+     <v-divider></v-divider>
+    
+     <template v-for="item in items">
+     <v-list-item :key="item" v-on:click="linksTo(item.name)">
+     <v-list-tile>
+     <v-list-tile-action>
+     <v-icon>{{ item.icon }}</v-icon>
+     </v-list-tile-action>
+     <v-list-tile-content>
+     <v-list-tile-title>
+     {{ item.title }}
+     </v-list-tile-title>
+     </v-list-tile-content>
+     </v-list-tile>
+     </v-list-item>
+     </template>
+    
+     </v-list>
+     */
 
 });
 
@@ -13026,7 +13119,7 @@ window.axios.defaults.baseURL = "/api/v1/";
  * a simple convenience so we don't have to attach every token manually.
  */
 
-var token = document.head.querySelector('meta[name="csrf-token"]');
+let token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
   window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
@@ -13054,65 +13147,19 @@ if (token) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 /* harmony default export */ __webpack_exports__["a"] = ({
-    Object: function Object(value) {
-        return (typeof value === "undefined" ? "undefined" : _typeof(value)) === "object";
-    },
-    Function: function Function(value) {
-        return typeof value === "function";
-    },
-    Number: function Number(value) {
-        return typeof value === "number";
-    },
-    Boolean: function Boolean(value) {
-        return typeof value === "boolean";
-    },
-    String: function String(value) {
-        return typeof value === "string";
-    },
-    Undefined: function Undefined(value) {
-        return typeof value === "undefined";
-    },
-    Symbol: function Symbol(value) {
-        return (typeof value === "undefined" ? "undefined" : _typeof(value)) === "symbol";
-    },
-    Array: function (_Array) {
-        function Array(_x) {
-            return _Array.apply(this, arguments);
-        }
-
-        Array.toString = function () {
-            return _Array.toString();
-        };
-
-        return Array;
-    }(function (value) {
-        return Array.isArray(value);
-    }),
-    Null: function Null(value) {
-        return value === null;
-    },
-    Promise: function (_Promise) {
-        function Promise(_x2) {
-            return _Promise.apply(this, arguments);
-        }
-
-        Promise.toString = function () {
-            return _Promise.toString();
-        };
-
-        return Promise;
-    }(function (value) {
-        return Promise.resolve(value) === value;
-    }),
-    Empty: function Empty(value) {
-        return value === "";
-    },
-    notEmpty: function notEmpty(value) {
-        return value !== "";
-    }
+    Object: value => typeof value === "object",
+    Function: value => typeof value === "function",
+    Number: value => typeof value === "number",
+    Boolean: value => typeof value === "boolean",
+    String: value => typeof value === "string",
+    Undefined: value => typeof value === "undefined",
+    Symbol: value => typeof value === "symbol",
+    Array: value => Array.isArray(value),
+    Null: value => value === null,
+    Promise: value => Promise.resolve(value) === value,
+    Empty: value => value === "",
+    notEmpty: value => value !== ""
 });
 
 /***/ }),
@@ -13134,15 +13181,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
-var store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
+const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
     state: {
         sidebarOpen: true
     },
     mutations: {
-        switchSidebar: function switchSidebar(state) {
+        switchSidebar(state) {
             state.sidebarOpen = !state.sidebarOpen;
         },
-        setSidebar: function setSidebar(state, param) {
+        setSidebar(state, param) {
             state.sidebarOpen = param;
         }
     },
@@ -13160,33 +13207,32 @@ var store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 /* harmony default export */ __webpack_exports__["a"] = ({
     state: {
         data: []
     },
     mutations: {
-        set: function set(state, params) {
-            var _state$data;
-
-            (_state$data = state.data).push.apply(_state$data, _toConsumableArray(params));
+        set(state, params) {
+            state.data.push(...params);
         },
-        add: function add(state, params) {
+        add(state, params) {
             state.data.unshift(params);
+        },
+        remove(state, id) {
+            //find the index
+            let index = state.data.findIndex(element => element.id === id);
+            state.data.$remove(index);
         }
     },
     actions: {
-        create: function create(_ref, params) {
-            var commit = _ref.commit;
+        create({ commit }, params) {
 
+            const cb = params.cb || (() => {});
 
-            var cb = params.cb || function () {};
-
-            var promise = axios.post("projects", {
+            const promise = axios.post("projects", {
                 title: params.title,
                 description: params.description
-            }).then(function (response) {
+            }).then(response => {
 
                 //add a snackbar msg with the successful msg
                 commit("snackbar/add", {
@@ -13194,11 +13240,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                     timeout: 2000
                 }, { root: true });
 
-                console.log(response.data.data);
-
                 //add the project to the state
                 commit("add", response.data.data);
-            }).catch(function (error) {
+            }).catch(error => {
                 commit("snackbar/add", {
                     msg: error.response.data.description,
                     multiline: true
@@ -13221,7 +13265,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         all: []
     },
     mutations: {
-        add: function add(state, params) {
+        add(state, params) {
             state.all.push({
                 visible: true,
                 msg: params.msg || "An Error occurred",
@@ -13229,7 +13273,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 multiline: params.multiline || false
             });
         },
-        remove: function remove(state, params) {
+        remove(state, params) {
             state.all[params.index].visible = false;
         }
     },
@@ -13251,7 +13295,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         updated_at: ""
     },
     mutations: {
-        set: function set(state, param) {
+        set(state, param) {
             state.id = param.user.id;
             state.name = param.user.name;
             state.email = param.user.email;
@@ -24189,21 +24233,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.mini = !_vm.mini
       }
     }
-  }, [_c('v-icon', [_vm._v("chevron_left")])], 1)], 1)], 1)], 1)], 1), _vm._v(" "), _c('v-list', {
-    staticClass: "pt-0",
+  }, [_c('v-icon', [_vm._v("chevron_left")])], 1)], 1)], 1)], 1)], 1), _vm._v(" "), _c('v-divider'), _vm._v(" "), _c('v-list', {
     attrs: {
       "dense": ""
     }
-  }, [_c('v-divider'), _vm._v(" "), _vm._l((_vm.items), function(item) {
-    return [_c('v-list-item', {
-      key: item,
-      on: {
-        "click": function($event) {
-          _vm.linksTo(item.name)
-        }
-      }
-    }, [_c('v-list-tile', [_c('v-list-tile-action', [_c('v-icon', [_vm._v(_vm._s(item.icon))])], 1), _vm._v(" "), _c('v-list-tile-content', [_c('v-list-tile-title', [_vm._v("\n                            " + _vm._s(item.title) + "\n                        ")])], 1)], 1)], 1)]
-  })], 2)], 1)
+  }, [_c('sidebar-item', {
+    attrs: {
+      "title": "Dashboard",
+      "name": "home",
+      "icon": "dashboard"
+    }
+  })], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -35993,6 +36033,196 @@ module.exports = g;
 __webpack_require__(12);
 module.exports = __webpack_require__(13);
 
+
+/***/ }),
+/* 79 */,
+/* 80 */,
+/* 81 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data() {
+        return {
+            model: true
+        };
+    },
+    methods: {
+        linksTo() {
+            //only link if the item has no children
+            if (this.hasChildren) {
+                return;
+            }
+
+            this.$router.push({
+                name: this.name,
+                params: this.params
+            });
+        }
+    },
+    mounted() {
+        console.log(this.$refs);
+    },
+    computed: {
+        hasChildren() {
+            return this.children.length !== 0;
+        }
+    },
+    props: {
+        title: { type: String, required: true },
+        name: { type: String, default: "" },
+        icon: { type: String, default: "keyboard_arrow_down" },
+        iconAlt: { type: String, default: "keyboard_arrow_up" },
+        params: { type: Object, default: () => {
+                return {};
+            } },
+        children: { type: Array, default: () => {
+                return [];
+            } }
+    }
+});
+
+/***/ }),
+/* 82 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(81),
+  /* template */
+  __webpack_require__(83),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/wagnva/Dokumente/Workspace/Projects/Server-Status.io/resources/assets/js/layout/SideBarItem.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] SideBarItem.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-f3710972", Component.options)
+  } else {
+    hotAPI.reload("data-v-f3710972", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 83 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [(_vm.hasChildren) ? _c('v-list-group', {
+    attrs: {
+      "no-action": ""
+    },
+    model: {
+      value: (_vm.model),
+      callback: function($$v) {
+        _vm.model = $$v
+      },
+      expression: "model"
+    }
+  }, [_c('v-list-tile', {
+    slot: "item"
+  }, [_c('v-list-tile-action', [(_vm.model) ? _c('v-icon', [_vm._v("\n                    " + _vm._s(_vm.icon) + "\n                ")]) : _c('v-icon', [_vm._v("\n                    " + _vm._s(_vm.iconAlt) + "\n                ")])], 1), _vm._v(" "), _c('v-list-tile-content', [_c('v-list-tile-title', [_vm._v("\n                    " + _vm._s(_vm.title) + "\n                ")])], 1)], 1), _vm._v(" "), _vm._l((_vm.children), function(child, i) {
+    return _c('v-list-item', {
+      key: i,
+      nativeOn: {
+        "click": function($event) {
+          _vm.linksTo(child.name, child.params)
+        }
+      }
+    }, [_c('v-list-tile', [(child.icon) ? _c('v-list-tile-action', [_c('v-icon', [_vm._v(_vm._s(child.icon))])], 1) : _vm._e(), _vm._v(" "), _c('v-list-tile-content', [_c('v-list-tile-title', [_vm._v("\n                        " + _vm._s(child.title) + "\n                    ")])], 1)], 1)], 1)
+  })], 2) : _c('v-list-item', {
+    on: {
+      "click": _vm.linksTo
+    }
+  }, [_c('v-list-tile', [_c('v-list-tile-action', [_c('v-icon', [_vm._v(_vm._s(_vm.icon))])], 1), _vm._v(" "), _c('v-list-tile-content', [_c('v-list-tile-title', [_vm._v("\n                    " + _vm._s(_vm.title) + "\n                ")])], 1)], 1)], 1)], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-f3710972", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

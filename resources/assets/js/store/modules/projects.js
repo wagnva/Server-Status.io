@@ -8,6 +8,11 @@ export default {
         },
         add(state, params){
             state.data.unshift(params);
+        },
+        remove(state, id){
+            //find the index
+            let index = state.data.findIndex(element => (element.id === id));
+            state.data.$remove(index);
         }
     },
     actions: {
@@ -25,8 +30,6 @@ export default {
                     msg: response.data.msg,
                     timeout: 2000
                 }, {root: true});
-
-                console.log(response.data.data);
 
                 //add the project to the state
                 commit("add", response.data.data);

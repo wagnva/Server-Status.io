@@ -25,7 +25,14 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Project::class, function(Faker\Generator $faker){
     return [
-        "title" => "Project Name",
+        "title" => $faker->text(8),
+        "description" => $faker->text(100)
+    ];
+});
+
+$factory->define(\App\Server::class, function(\Faker\Generator $faker){
+    return [
+        "title" => $faker->text(8),
         "description" => $faker->text(100)
     ];
 });

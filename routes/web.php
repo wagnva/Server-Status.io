@@ -25,6 +25,8 @@ Route::group(["prefix" => "api/v1"], function(){
     Route::group(["prefix" => "projects"], function(){
         Route::get("/", "ProjectController@index");
         Route::post("/", "ProjectController@store");
+
+        Route::get("/{project}/server", "ServerController@index");
     });
 
 });
