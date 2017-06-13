@@ -15,6 +15,14 @@ export default {
             state.data.$remove(index);
         }
     },
+    getters: {
+        withId: (state) => (id) => {
+            let projects = state.data;
+            return projects.helper.find(projects, element => {
+                return element.id === id
+            });
+        }
+    },
     actions: {
         create({commit}, params){
 

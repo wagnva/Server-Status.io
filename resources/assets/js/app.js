@@ -5,17 +5,23 @@ import VueRouter from "vue-router"
 import Vuetify from "vuetify"
 import Vuex, {mapState, mapGetters} from "vuex"
 import Validator from "./helper/validator"
+import ArrayHelper from "./helper/array"
 
 Vue.use(Vuetify);
 Vue.use(VueRouter);
 Vue.use(Vuex);
 
+//Helper methods etc.
 window.Vue = Vue;
 window.mapState = mapState;
 window.mapGetters = mapGetters;
+window.array = ArrayHelper;
 
 Vue.prototype.$http = axios;
 Vue.prototype.is = Validator;
+Vue.prototype.array = ArrayHelper;
+
+Array.prototype.helper = ArrayHelper;
 
 Vue.component("base-layout", require("./layout/BaseLayout.vue"));
 Vue.component("snackbar-manager", require("./components/SnackbarManager.vue"));
