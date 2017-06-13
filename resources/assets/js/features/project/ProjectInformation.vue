@@ -21,12 +21,6 @@
 
 <script>
     export default {
-        data(){
-            return {
-                title: "Test",
-                description: "Description"
-            }
-        },
         props: {
             project: {
                 type: Object,

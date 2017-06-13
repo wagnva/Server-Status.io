@@ -18,7 +18,8 @@ class ProjectController extends Controller
      * @return mixed
      */
     public function index(){
-        return Project::where("user_id", Auth::user()->id)
+        return Project::with("server")
+            ->where("user_id", Auth::user()->id)
             ->latest()
             ->get();
     }
@@ -28,8 +29,6 @@ class ProjectController extends Controller
      * @return array
      */
     public function store(){
-
-        sleep(2);
 
         $this->validate(request(), [
             "title" => "required",

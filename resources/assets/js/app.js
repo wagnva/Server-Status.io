@@ -32,7 +32,8 @@ Vue.component("snackbar-manager", require("./components/SnackbarManager.vue"));
 const Containers = {
     Dashboard: require("./features/dashboard/DashboardContainer.vue"),
     Project: require("./features/project/ProjectContainer.vue"),
-    NewProject: require("./features/project/NewProjectContainer.vue")
+    NewProject: require("./features/project/NewProjectContainer.vue"),
+    Server: require("./features/server/ServerContainer.vue")
 };
 
 const routerInstance = new VueRouter({
@@ -48,9 +49,14 @@ const routerInstance = new VueRouter({
            component: Containers.NewProject
        },
        {
-           path: "/project/:id",
+           path: "/project/:projectId",
            name: "project",
            component: Containers.Project
+       },
+       {
+           path: "/project/:projectId/server/:serverId",
+           name: "server",
+           component: Containers.Server
        }
    ]
 });

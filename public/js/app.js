@@ -11631,7 +11631,8 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component("snackbar-manager", __webp
 const Containers = {
     Dashboard: __webpack_require__(54),
     Project: __webpack_require__(58),
-    NewProject: __webpack_require__(57)
+    NewProject: __webpack_require__(57),
+    Server: __webpack_require__(94)
 };
 
 const routerInstance = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
@@ -11644,9 +11645,13 @@ const routerInstance = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* defau
         name: "project_new",
         component: Containers.NewProject
     }, {
-        path: "/project/:id",
+        path: "/project/:projectId",
         name: "project",
         component: Containers.Project
+    }, {
+        path: "/project/:projectId/server/:serverId",
+        name: "server",
+        component: Containers.Server
     }]
 });
 
@@ -12653,7 +12658,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             const id = this.project.id;
             this.$router.push({
                 name: "project",
-                params: { id: id }
+                params: { projectId: id }
             });
         }
     },
@@ -12812,6 +12817,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ProjectInformation_vue__ = __webpack_require__(86);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ProjectInformation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ProjectInformation_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ServerPreviewCard_vue__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ServerPreviewCard_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__ServerPreviewCard_vue__);
 //
 //
 //
@@ -12821,13 +12828,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: {
-        "project-information": __WEBPACK_IMPORTED_MODULE_0__ProjectInformation_vue___default.a
-    },
     methods: {
         getProject(id) {
             return this.$store.getters["projects/withId"](id);
@@ -12835,8 +12857,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         project() {
-            return this.getProject(this.$route.params.id);
+            return this.getProject(this.$route.params.projectId);
         }
+    },
+    components: {
+        "project-information": __WEBPACK_IMPORTED_MODULE_0__ProjectInformation_vue___default.a,
+        "server-preview-card": __WEBPACK_IMPORTED_MODULE_1__ServerPreviewCard_vue___default.a
     }
 });
 
@@ -24349,9 +24375,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('v-card-row', {
     staticClass: "amber darken-1"
-  }, [_c('v-card-title', [_c('span', {
+  }, [_c('v-card-title', {
+    staticClass: "pt-2 pb-2"
+  }, [_c('span', {
     staticClass: "white--text"
-  }, [_vm._v("\n                " + _vm._s(_vm.project.title) + "\n            ")]), _vm._v(" "), _c('v-spacer')], 1)], 1), _vm._v(" "), _c('v-card-text', [_c('v-card-row', {
+  }, [_vm._v("\n                " + _vm._s(_vm.project.title) + "\n            ")])])], 1), _vm._v(" "), _c('v-card-text', [_c('v-card-row', {
     attrs: {
       "height": "75px"
     }
@@ -24374,7 +24402,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "project": _vm.project
     }
-  })], 1)
+  }), _vm._v(" "), _c('h5', {
+    staticClass: "mt-5 mb-0 ml-1 grey--text text--darken-2"
+  }, [_vm._v("Server")]), _vm._v(" "), _c('v-layout', {
+    staticClass: "negative-margin",
+    attrs: {
+      "row": "",
+      "wrap": ""
+    }
+  }, [_vm._l((_vm.project.server), function(server) {
+    return [_c('v-flex', {
+      key: server.id,
+      attrs: {
+        "xs12": "",
+        "sm6": "",
+        "m4": "",
+        "xl3": ""
+      }
+    }, [_c('server-preview-card', {
+      attrs: {
+        "server": server
+      }
+    })], 1)]
+  })], 2)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -36295,12 +36345,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data() {
-        return {
-            title: "Test",
-            description: "Description"
-        };
-    },
     props: {
         project: {
             type: Object,
@@ -36314,7 +36358,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(2)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 86 */
@@ -36422,6 +36466,187 @@ if(false) {
         })[0] || {};
     }
 });
+
+/***/ }),
+/* 90 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    methods: {
+        redirectToServerPage() {
+            this.$router.push({
+                name: "server",
+                params: {
+                    projectId: this.$route.params.projectId,
+                    serverId: this.server.id
+                }
+            });
+        }
+    },
+    props: {
+        server: {
+            type: Object,
+            required: true
+        }
+    }
+});
+
+/***/ }),
+/* 91 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(90),
+  /* template */
+  __webpack_require__(92),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/wagnva/Dokumente/Workspace/Projects/Server-Status.io/resources/assets/js/features/project/ServerPreviewCard.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] ServerPreviewCard.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6a27a1aa", Component.options)
+  } else {
+    hotAPI.reload("data-v-6a27a1aa", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 92 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('v-card', {
+    staticClass: "ml-1 mr-1 mt-3",
+    attrs: {
+      "hover": ""
+    },
+    on: {
+      "click": _vm.redirectToServerPage
+    }
+  }, [_c('v-card-row', {
+    staticClass: "amber darken-1"
+  }, [_c('v-card-title', {
+    staticClass: "pt-2 pb-2"
+  }, [_c('span', {
+    staticClass: "white--text"
+  }, [_vm._v("\n                " + _vm._s(_vm.server.title) + "\n            ")]), _vm._v(" "), _c('v-spacer')], 1)], 1), _vm._v(" "), _c('v-card-text', [_c('v-card-row', [_vm._v("\n            " + _vm._s(_vm.server.description) + "\n        ")])], 1)], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-6a27a1aa", module.exports)
+  }
+}
+
+/***/ }),
+/* 93 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+/* 94 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(93),
+  /* template */
+  __webpack_require__(95),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/home/wagnva/Dokumente/Workspace/Projects/Server-Status.io/resources/assets/js/features/server/ServerContainer.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] ServerContainer.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-19fc6f97", Component.options)
+  } else {
+    hotAPI.reload("data-v-19fc6f97", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 95 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_vm._v("\n    Server Container\n")])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-19fc6f97", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

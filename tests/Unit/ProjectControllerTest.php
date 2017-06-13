@@ -31,8 +31,10 @@ class ProjectControllerTest extends TestCase
     {
         $response = $this->json("GET", "api/v1/projects");
 
-        $projects = Project::where("user_id", 1)
-            ->latest()->get();
+        $projects = Project::with("server")
+            ->where("user_id", 1)
+            ->latest()
+            ->get();
 
         $response
             ->assertExactJson($projects->toArray());
