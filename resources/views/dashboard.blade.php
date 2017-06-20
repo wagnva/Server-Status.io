@@ -23,6 +23,7 @@
         {{Auth::user()}}
     </div>
 
+    <script src="//{{\Illuminate\Support\Facades\Request::getHost()}}:6001/socket.io/socket.io.js"></script>
     <script src="{{ asset('js/app.js') }}" ></script>
 
 </body>

@@ -81,9 +81,6 @@
                 });
             }
         },
-        mounted(){
-            console.log(this.$refs);
-        },
         computed: {
             hasChildren(){
                 return this.children.length !== 0;

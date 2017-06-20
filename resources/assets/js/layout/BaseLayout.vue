@@ -39,6 +39,7 @@
     import Sidebar from "./Sidebar.vue"
     import Preloader from "../features/loader/Preloader.vue"
 
+
     export default {
         data(){
             return {
@@ -50,12 +51,26 @@
                 this.$store.commit("switchSidebar");
             },
             preLoad(){
+
+                //get the projects
+                let projects = this.$http.get("projects")
+                    .then(response => {
+                        this.Normalizer.normalize({
+                            data: response.data,
+                            key: "server",
+                            mutations: {
+                                data: "projects/set",
+                                normalized: "server/add"
+                            }
+                        });
+
+                    });
+
                 return {
-                    "projects/set": this.$http.get("projects")
+                    //"projects/set": this.$http.get("projects")
                 };
             },
             isFinished(){
-                console.log(this.$store.state.projects.data);
                 this.loading = false;
             }
         },

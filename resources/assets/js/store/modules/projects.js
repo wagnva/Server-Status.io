@@ -16,11 +16,19 @@ export default {
         }
     },
     getters: {
-        withId: (state) => (id) => {
+        withId: (state, getters) => (id) => {
             let projects = state.data;
             return projects.helper.find(projects, element => {
                 return element.id === id
             });
+        },
+        map: (state, getters, rootState, rootGetters) => (project) =>{
+            if(!project.server){return project;}
+            project.server.forEach((element, index) => {
+                project.server[index] = rootGetters["server/withId"](element)
+            });
+
+            return project;
         }
     },
     actions: {

@@ -6,6 +6,7 @@ import Vuetify from "vuetify"
 import Vuex, {mapState, mapGetters} from "vuex"
 import Validator from "./helper/validator"
 import ArrayHelper from "./helper/array"
+import Normalizer from "./helper/normalizer"
 
 Vue.use(Vuetify);
 Vue.use(VueRouter);
@@ -16,10 +17,13 @@ window.Vue = Vue;
 window.mapState = mapState;
 window.mapGetters = mapGetters;
 window.array = ArrayHelper;
+window.Normalizer = Normalizer;
 
 Vue.prototype.$http = axios;
 Vue.prototype.is = Validator;
 Vue.prototype.array = ArrayHelper;
+Vue.prototype.Normalizer = Normalizer;
+Vue.prototype.Echo = window.Echo;
 
 Array.prototype.helper = ArrayHelper;
 
@@ -61,9 +65,8 @@ const routerInstance = new VueRouter({
    ]
 });
 
-/*
-    Load the userdata into the store
- */
+
+//Load the userdata into the store
 import store from "./store"
 
 var $userdiv = $("#user");
@@ -73,16 +76,18 @@ store.commit("user/set", {user: userData});
 
 $userdiv.remove();
 
+//setup the normalizer
+Normalizer.setStore(store);
 
-/*
-    Start the App
- */
-
+//Start the app
 const app = new Vue({
     router: routerInstance,
     store : store
 }).$mount("#app");
 
 
-
-
+//ECHO TEST
+window.Echo.channel("channel-name")
+    .listen("TestEvent", (e) => {
+        console.log(e);
+    });
