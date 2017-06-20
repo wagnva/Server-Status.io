@@ -29,6 +29,7 @@ Array.prototype.helper = ArrayHelper;
 
 Vue.component("base-layout", require("./layout/BaseLayout.vue"));
 Vue.component("snackbar-manager", require("./components/SnackbarManager.vue"));
+Vue.component("app-preloader", require("./features/loader/AppPreloader.vue"));
 
 /*
     Setup the router

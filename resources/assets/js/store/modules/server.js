@@ -4,7 +4,7 @@ export default {
     },
     getters: {
         withId: (state) => (id) => {
-            return state.data[id];
+            return state.data[id] || {};
         }
     },
     mutations: {

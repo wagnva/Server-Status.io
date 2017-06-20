@@ -10,6 +10,18 @@
 <script>
     export default {
         mounted(){
+
+            //expects the toLoad function to return a promise
+            const promise = this.toLoad();
+
+            promise.then(() => {
+                this.isFinished();
+            });
+
+            /*
+            Old preloader code, that took an object as argument and went through every promise in there
+            Probably going to rework this component, so im going to keep this for now
+
             const toBeLoaded = this.toLoad();
             const keys = Object.keys(toBeLoaded);
             const values = Object.values(toBeLoaded);
@@ -29,7 +41,7 @@
 
                     //call the finish function
                     this.isFinished();
-                });
+                });*/
 
         },
         props: {

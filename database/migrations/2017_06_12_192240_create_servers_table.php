@@ -21,6 +21,8 @@ class CreateServersTable extends Migration
             $table->integer("project_id");
             $table->string("title");
             $table->string("description");
+            $table->string("address"); //the ip or domain of the server
+            $table->integer("timeBetweenRepeats"); //time between every servercheck in minutes
             $table->timestamps();
         });
     }

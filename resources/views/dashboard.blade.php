@@ -14,9 +14,10 @@
 <body>
 
     <div id="app">
-        <base-layout>
-            <router-view></router-view>
-        </base-layout>
+
+        <app-preloader></app-preloader>
+
+        <snackbar-manager></snackbar-manager>
     </div>
 
     <div id="user" style="visibility: hidden">
