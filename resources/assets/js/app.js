@@ -88,7 +88,7 @@ const app = new Vue({
 
 
 //ECHO TEST
-window.Echo.channel("channel-name")
-    .listen("TestEvent", (e) => {
+window.Echo.channel("App.User." + userData.id)
+    .listen("ServerStatusChangeEvent", (e) => {
         console.log(e);
     });

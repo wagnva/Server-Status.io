@@ -11,8 +11,13 @@ function validate(params){
         || Validator.Undefined(params.key)
         || Validator.Undefined(params.mutations)
         || Validator.Undefined(params.mutations.data)
-        || Validator.Undefined(params.mutations.normalized)){
-        console.warn("Normalizer.normalize() called with wrong/missing parameter");
+        ||  (
+            Validator.Undefined(params.normalizedCB) &&
+            Validator.Undefined(params.mutations.normalized)
+            )
+        ){
+
+        console.error("Normalizer.normalize() called with wrong/missing parameter");
         return true;
     }
     return false;
@@ -31,6 +36,9 @@ export default {
      * 1. the data, and the keydata are arrays.
      * 2. the identifying field of the keydata is called "id"
      * 3. this method is called before the data is added to the store (destroys reactivity otherwise)
+     *
+     * When a normalizedCB param is provided, the method does not add the normalized data automatically,
+     * but just calls the cb with the data
      * @param params
      */
     normalize(params){
@@ -59,9 +67,16 @@ export default {
         //push the main data
         store.commit(params.mutations.data, params.data);
 
-        //push the normalized data (the data removed from the main data)
-        normalizedData.forEach((element) => {
-            store.commit(params.mutations.normalized, element);
-        });
+
+        if(params.normalizedCB){
+            //if the cb is provided, let the user do stuff with the normalized data
+            params.normalizedCB(normalizedData);
+        }else{
+            //push the normalized data (the data removed from the main data)
+            normalizedData.forEach((element) => {
+                store.commit(params.mutations.normalized, element);
+            });
+        }
+
     }
 }

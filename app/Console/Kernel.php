@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\ResetDB;
+use App\Console\Commands\ServerCheck;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -15,6 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\TestBroadcast::class,
+        ServerCheck::class,
         ResetDB::class
     ];
 

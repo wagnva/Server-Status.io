@@ -12,9 +12,6 @@
             server(){
                 return this.$store.getters["server/withId"](this.$route.params.serverId);
             }
-        },
-        mounted(){
-            console.log("ServerContainer mounted");
         }
     }
 </script>

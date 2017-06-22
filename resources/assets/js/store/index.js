@@ -4,6 +4,7 @@ import UserModule from "./modules/user"
 import ProjectsModule from "./modules/projects"
 import SnackbarModule from "./modules/snackbar"
 import ServerModule from "./modules/server"
+import StatusesModule from "./modules/statuses"
 
 Vue.use(Vuex);
 
@@ -23,7 +24,8 @@ const store = new Vuex.Store({
         user: UserModule,
         projects: ProjectsModule,
         snackbar: SnackbarModule,
-        server: ServerModule
+        server: ServerModule,
+        statuses: StatusesModule
     }
 });
 

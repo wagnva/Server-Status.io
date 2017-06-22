@@ -1,6 +1,6 @@
 Server-Status.io
 ===
-Server-Status.io is going to be the next server monitoring and tracking solution currently being developed.
+Server-Status.io is a new server monitoring and tracking solution currently being developed.
 You can follow the development on my [blog](http://blog.server-status.io).
 
 ### Installation

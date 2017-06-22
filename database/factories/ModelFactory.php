@@ -38,3 +38,9 @@ $factory->define(\App\Server::class, function(\Faker\Generator $faker){
         "timeBetweenRepeats" => 1
     ];
 });
+
+$factory->define(\App\ServerStatus::class, function(\Faker\Generator $faker){
+    return [
+        "status" => $faker->randomElement(["online", "offline", "unknown"])
+    ];
+});

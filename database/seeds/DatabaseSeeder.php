@@ -26,10 +26,18 @@ class DatabaseSeeder extends Seeder
 
         //create server for each project
         foreach($posts as $post){
-            factory(\App\Server::class, 2)->create([
+            $server = factory(\App\Server::class, 2)->create([
                 "user_id" => $user->id,
                 "project_id" => $post->id
             ]);
+
+            //create serverstatuses for each server
+            foreach($server as $item){
+                factory(\App\ServerStatus::class, 3)->create([
+                    "user_id" => $user->id,
+                    "server_id" => $item->id
+                ]);
+            }
         }
     }
 }

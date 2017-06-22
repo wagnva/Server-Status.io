@@ -18,7 +18,7 @@ class ProjectController extends Controller
      * @return mixed
      */
     public function index(){
-        return Project::with("server")
+        return Project::with("server", "server.statuses")
             ->where("user_id", Auth::user()->id)
             ->latest()
             ->get();

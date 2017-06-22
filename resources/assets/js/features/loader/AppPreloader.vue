@@ -26,12 +26,24 @@
                 //get the projects
                 let projects = this.$http.get("projects")
                     .then(response => {
+
                         this.Normalizer.normalize({
                             data: response.data,
                             key: "server",
                             mutations: {
-                                data: "projects/set",
-                                normalized: "server/add"
+                                data: "projects/set"
+                            },
+                            normalizedCB: (normalized) => {
+
+                                //normalize the server again (statuses)
+                                this.Normalizer.normalize({
+                                    data: normalized,
+                                    key: "statuses",
+                                    mutations: {
+                                        data: "server/set",
+                                        normalized: "statuses/add"
+                                    }
+                                });
                             }
                         });
                     });

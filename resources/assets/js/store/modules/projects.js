@@ -4,6 +4,7 @@ export default {
     },
     mutations: {
         set(state, params){
+            state.data = [];
             state.data.push(...params);
         },
         add(state, params){

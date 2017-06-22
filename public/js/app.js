@@ -11702,7 +11702,7 @@ const app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 }).$mount("#app");
 
 //ECHO TEST
-window.Echo.channel("channel-name").listen("TestEvent", e => {
+window.Echo.channel("App.User." + userData.id).listen("ServerStatusChangeEvent", e => {
     console.log(e);
 });
 
@@ -12961,9 +12961,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         server() {
             return this.$store.getters["server/withId"](this.$route.params.serverId);
         }
-    },
-    mounted() {
-        console.log("ServerContainer mounted");
     }
 });
 
@@ -13424,8 +13421,9 @@ let store;
  * @returns {boolean} true if there is an error
  */
 function validate(params) {
-    if (__WEBPACK_IMPORTED_MODULE_0__validator__["a" /* default */].Undefined(params.data) || __WEBPACK_IMPORTED_MODULE_0__validator__["a" /* default */].Undefined(params.key) || __WEBPACK_IMPORTED_MODULE_0__validator__["a" /* default */].Undefined(params.mutations) || __WEBPACK_IMPORTED_MODULE_0__validator__["a" /* default */].Undefined(params.mutations.data) || __WEBPACK_IMPORTED_MODULE_0__validator__["a" /* default */].Undefined(params.mutations.normalized)) {
-        console.warn("Normalizer.normalize() called with wrong/missing parameter");
+    if (__WEBPACK_IMPORTED_MODULE_0__validator__["a" /* default */].Undefined(params.data) || __WEBPACK_IMPORTED_MODULE_0__validator__["a" /* default */].Undefined(params.key) || __WEBPACK_IMPORTED_MODULE_0__validator__["a" /* default */].Undefined(params.mutations) || __WEBPACK_IMPORTED_MODULE_0__validator__["a" /* default */].Undefined(params.mutations.data) || __WEBPACK_IMPORTED_MODULE_0__validator__["a" /* default */].Undefined(params.normalizedCB) && __WEBPACK_IMPORTED_MODULE_0__validator__["a" /* default */].Undefined(params.mutations.normalized)) {
+
+        console.error("Normalizer.normalize() called with wrong/missing parameter");
         return true;
     }
     return false;
@@ -13444,6 +13442,9 @@ function validate(params) {
      * 1. the data, and the keydata are arrays.
      * 2. the identifying field of the keydata is called "id"
      * 3. this method is called before the data is added to the store (destroys reactivity otherwise)
+     *
+     * When a normalizedCB param is provided, the method does not add the normalized data automatically,
+     * but just calls the cb with the data
      * @param params
      */
     normalize(params) {
@@ -13474,10 +13475,15 @@ function validate(params) {
         //push the main data
         store.commit(params.mutations.data, params.data);
 
-        //push the normalized data (the data removed from the main data)
-        normalizedData.forEach(element => {
-            store.commit(params.mutations.normalized, element);
-        });
+        if (params.normalizedCB) {
+            //if the cb is provided, let the user do stuff with the normalized data
+            params.normalizedCB(normalizedData);
+        } else {
+            //push the normalized data (the data removed from the main data)
+            normalizedData.forEach(element => {
+                store.commit(params.mutations.normalized, element);
+            });
+        }
     }
 });
 
@@ -13493,6 +13499,8 @@ function validate(params) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_projects__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_snackbar__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_server__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_statuses__ = __webpack_require__(107);
+
 
 
 
@@ -13518,7 +13526,8 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
         user: __WEBPACK_IMPORTED_MODULE_2__modules_user__["a" /* default */],
         projects: __WEBPACK_IMPORTED_MODULE_3__modules_projects__["a" /* default */],
         snackbar: __WEBPACK_IMPORTED_MODULE_4__modules_snackbar__["a" /* default */],
-        server: __WEBPACK_IMPORTED_MODULE_5__modules_server__["a" /* default */]
+        server: __WEBPACK_IMPORTED_MODULE_5__modules_server__["a" /* default */],
+        statuses: __WEBPACK_IMPORTED_MODULE_6__modules_statuses__["a" /* default */]
     }
 });
 
@@ -13535,6 +13544,7 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
     },
     mutations: {
         set(state, params) {
+            state.data = [];
             state.data.push(...params);
         },
         add(state, params) {
@@ -13610,6 +13620,10 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
         }
     },
     mutations: {
+        set(state, params) {
+            state.data = [];
+            state.data.push(...params);
+        },
         add(state, params) {
             //key: id, value: params
             state.data[params.id] = params;
@@ -37710,12 +37724,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             //get the projects
             let projects = this.$http.get("projects").then(response => {
+
                 this.Normalizer.normalize({
                     data: response.data,
                     key: "server",
                     mutations: {
-                        data: "projects/set",
-                        normalized: "server/add"
+                        data: "projects/set"
+                    },
+                    normalizedCB: normalized => {
+
+                        //normalize the server again (statuses)
+                        this.Normalizer.normalize({
+                            data: normalized,
+                            key: "statuses",
+                            mutations: {
+                                data: "server/set",
+                                normalized: "statuses/add"
+                            }
+                        });
                     }
                 });
             });
@@ -37792,6 +37818,29 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-461074bc", module.exports)
   }
 }
+
+/***/ }),
+/* 107 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    state: {
+        data: {}
+    },
+    getters: {
+        withId: state => id => {
+            return state.data[id] || {};
+        }
+    },
+    mutations: {
+        add(state, params) {
+            //key: id, value: params
+            state.data[params.id] = params;
+        }
+    },
+    namespaced: true
+});
 
 /***/ })
 /******/ ]);

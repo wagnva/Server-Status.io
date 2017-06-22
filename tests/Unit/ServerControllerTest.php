@@ -25,6 +25,8 @@ class ServerControllerTest extends TestCase
     public function testServerReturned(){
         $response = $this->json("GET", "api/v1/projects/1/server");
 
+        dd($response->json());
+
         $servers = Project::find(1)->server()->get();
 
         $response
