@@ -7,6 +7,7 @@ import Vuex, {mapState, mapGetters} from "vuex"
 import Validator from "./helper/validator"
 import ArrayHelper from "./helper/array"
 import Normalizer from "./helper/normalizer"
+import * as Moment from "moment"
 
 Vue.use(Vuetify);
 Vue.use(VueRouter);
@@ -18,12 +19,14 @@ window.mapState = mapState;
 window.mapGetters = mapGetters;
 window.array = ArrayHelper;
 window.Normalizer = Normalizer;
+window.moment = Moment;
 
 Vue.prototype.$http = axios;
 Vue.prototype.is = Validator;
 Vue.prototype.array = ArrayHelper;
 Vue.prototype.Normalizer = Normalizer;
 Vue.prototype.Echo = window.Echo;
+Vue.prototype.moment = Moment;
 
 Array.prototype.helper = ArrayHelper;
 
