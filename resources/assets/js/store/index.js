@@ -1,5 +1,6 @@
 import Vue from "vue"
 import Vuex from "vuex"
+import sockets from "./sockets"
 import UserModule from "./modules/user"
 import ProjectsModule from "./modules/projects"
 import SnackbarModule from "./modules/snackbar"
@@ -29,4 +30,5 @@ const store = new Vuex.Store({
     }
 });
 
+export {sockets};
 export default store

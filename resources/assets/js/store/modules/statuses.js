@@ -4,12 +4,13 @@ export default {
     },
     getters: {
         withId: (state) => (id) => {
+            console.log("[statuses/withId]");
             return state.data[id] || {};
         },
         forServer: (state) => (_id) => {
             const values = [];
             const id = parseInt(_id);
-            for(var key in state.data){
+            for(let key in state.data){
                 if(state.data.hasOwnProperty(key)){
                    values.push(state.data[key]);
                 }
@@ -41,7 +42,7 @@ export default {
     mutations: {
         add(state, params){
             //key: id, value: params
-            state.data[params.id] = params;
+            Vue.set(state.data, params.id, params);
         }
     },
     namespaced: true

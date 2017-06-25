@@ -63,13 +63,10 @@
 <style lang="scss" scoped>
     .status-bar{
         align-items: center;
-        flex-flow: initial;
-        display: flex;
         flex-direction: column;
         span{
             text-align: center;
             width: 100%;
-            height: 100%;
         }
         .status{
             font-size: 18px;

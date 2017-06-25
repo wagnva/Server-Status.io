@@ -71,7 +71,7 @@ const routerInstance = new VueRouter({
 
 
 //Load the userdata into the store
-import store from "./store"
+import store, {sockets} from "./store"
 
 var $userdiv = $("#user");
 var userData = JSON.parse($userdiv.text());
@@ -89,9 +89,6 @@ const app = new Vue({
     store : store
 }).$mount("#app");
 
+//setup the sockets (live updating)
+sockets(window.Echo, store, userData.id);
 
-//ECHO TEST
-window.Echo.channel("App.User." + userData.id)
-    .listen("ServerStatusChangeEvent", (e) => {
-        console.log(e);
-    });
