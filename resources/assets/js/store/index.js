@@ -6,6 +6,7 @@ import ProjectsModule from "./modules/projects"
 import SnackbarModule from "./modules/snackbar"
 import ServerModule from "./modules/server"
 import StatusesModule from "./modules/statuses"
+import NotificationsModule from "./modules/notifications"
 
 Vue.use(Vuex);
 
@@ -26,7 +27,8 @@ const store = new Vuex.Store({
         projects: ProjectsModule,
         snackbar: SnackbarModule,
         server: ServerModule,
-        statuses: StatusesModule
+        statuses: StatusesModule,
+        notifications: NotificationsModule
     }
 });
 

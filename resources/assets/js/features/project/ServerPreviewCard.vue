@@ -47,8 +47,10 @@
                 return this.$store.getters["statuses/current"](this.server.id);
             },
             currentStatusDate(){
+                /* Humanized Time
                 let createdAt = this.moment.utc(this.currentStatus.created_at);
-                return createdAt.fromNow();
+                return createdAt.fromNow();*/
+                return this.moment.utc(this.currentStatus.created_at).local().format("HH:mm:ss");
             }
         },
         props: {
