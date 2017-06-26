@@ -10,6 +10,10 @@
 
             </notification>
         </div>
+
+        <v-btn class="close-button" @click.native="close" flat>
+            Close
+        </v-btn>
     </div>
 </template>
 
@@ -57,6 +61,10 @@
 
         .notification-container{
             overflow-y: auto;
+        }
+
+        .close-button{
+            display: none;
         }
 
         //small list modal
@@ -107,6 +115,15 @@
             .notification-container{
                 margin-top: 20px;
                 padding-bottom: 20px;
+            }
+
+            .close-button{
+                display: block;
+                position: absolute;
+                bottom: 20px;
+                left: 0;
+                margin-left: 20px;
+                width: calc(100% - 40px);
             }
 
         }

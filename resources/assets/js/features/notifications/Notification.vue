@@ -7,6 +7,8 @@
             <span class="notification-title">{{notification.title}}</span>
             <span class="notification-description">{{notification.description}}</span>
         </div>
+
+        <v-icon class="close-icon" light>close</v-icon>
     </div>
 </template>
 
@@ -25,6 +27,20 @@
     .notification{
         display: flex;
         border-left: 5px solid #FFA000!important;
+        position: relative;
+
+        .close-icon{
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 5px;
+            align-items: flex-start;
+            cursor: pointer;
+
+            @media screen and (max-width: 549px){
+                padding: 8px;
+            }
+        }
 
         .notification-icon{
             width: 15%;

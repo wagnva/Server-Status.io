@@ -7,7 +7,7 @@ export default {
             read: false,
             visible: true
         }],
-        windowOpen: true
+        windowOpen: false
     },
     mutations: {
         add: (state, params) => {
@@ -24,6 +24,9 @@ export default {
         },
         switchWindow: (state) => {
             state.windowOpen = !state.windowOpen;
+        },
+        markAllAsRead: (state, getters) => {
+            state.data.forEach(element => element.read = true);
         }
     },
     getters: {

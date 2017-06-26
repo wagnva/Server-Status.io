@@ -28442,6 +28442,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -28469,12 +28471,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     methods: {
         click() {
             this.$store.commit("notifications/switchWindow");
+
+            //if the window is now open, mark all the notifications as read
+            if (this.$store.state.notifications.windowOpen) {
+                this.$store.commit("notifications/markAllAsRead");
+            }
+        }
+    },
+    computed: {
+        unreadCount() {
+            return this.$store.getters["notifications/countUnread"];
+        },
+        badgeToggleClass() {
+            return this.unreadCount === 0;
         }
     }
 });
@@ -28487,6 +28501,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Notification_vue__ = __webpack_require__(196);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Notification_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Notification_vue__);
+//
+//
+//
+//
 //
 //
 //
@@ -29418,7 +29436,7 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
             read: false,
             visible: true
         }],
-        windowOpen: true
+        windowOpen: false
     },
     mutations: {
         add: (state, params) => {
@@ -29435,6 +29453,9 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
         },
         switchWindow: state => {
             state.windowOpen = !state.windowOpen;
+        },
+        markAllAsRead: (state, getters) => {
+            state.data.forEach(element => element.read = true);
         }
     },
     getters: {
@@ -29717,7 +29738,7 @@ exports.push([module.i, "\n.card__title[data-v-5a2db5df] {\n  font-size: 20px;\n
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)();
-exports.push([module.i, "\n#notifications[data-v-5c3bac95] {\n  background: white;\n  z-index: 900;\n}\n#notifications .close-icon[data-v-5c3bac95] {\n    display: none;\n}\n#notifications .notification-container[data-v-5c3bac95] {\n    overflow-y: auto;\n}\n@media screen and (min-width: 550px) {\n#notifications[data-v-5c3bac95] {\n      min-height: 400px;\n      width: 400px;\n      top: 95%;\n      right: 2%;\n      position: absolute;\n}\n#notifications .header[data-v-5c3bac95] {\n        text-align: center;\n        width: 100%;\n        display: inline-block;\n        font-size: 18px;\n}\n#notifications .notification-container[data-v-5c3bac95] {\n        margin-top: 8px;\n        padding-bottom: 8px;\n}\n}\n@media screen and (max-width: 549px) {\n#notifications[data-v-5c3bac95] {\n      position: fixed;\n      top: 0;\n      left: 0;\n      right: 0;\n      bottom: 0;\n}\n#notifications .header[data-v-5c3bac95] {\n        text-align: center;\n        width: 100%;\n        display: inline-block;\n        font-size: 20px;\n        padding-top: 18px !important;\n}\n#notifications .close-icon[data-v-5c3bac95] {\n        display: inline-block;\n        position: absolute;\n        top: 0;\n        right: 0;\n        padding: 20px;\n        cursor: pointer;\n}\n#notifications .notification-container[data-v-5c3bac95] {\n        margin-top: 20px;\n        padding-bottom: 20px;\n}\n}\n", ""]);
+exports.push([module.i, "\n#notifications[data-v-5c3bac95] {\n  background: white;\n  z-index: 900;\n}\n#notifications .close-icon[data-v-5c3bac95] {\n    display: none;\n}\n#notifications .notification-container[data-v-5c3bac95] {\n    overflow-y: auto;\n}\n#notifications .close-button[data-v-5c3bac95] {\n    display: none;\n}\n@media screen and (min-width: 550px) {\n#notifications[data-v-5c3bac95] {\n      min-height: 400px;\n      width: 400px;\n      top: 95%;\n      right: 2%;\n      position: absolute;\n}\n#notifications .header[data-v-5c3bac95] {\n        text-align: center;\n        width: 100%;\n        display: inline-block;\n        font-size: 18px;\n}\n#notifications .notification-container[data-v-5c3bac95] {\n        margin-top: 8px;\n        padding-bottom: 8px;\n}\n}\n@media screen and (max-width: 549px) {\n#notifications[data-v-5c3bac95] {\n      position: fixed;\n      top: 0;\n      left: 0;\n      right: 0;\n      bottom: 0;\n}\n#notifications .header[data-v-5c3bac95] {\n        text-align: center;\n        width: 100%;\n        display: inline-block;\n        font-size: 20px;\n        padding-top: 18px !important;\n}\n#notifications .close-icon[data-v-5c3bac95] {\n        display: inline-block;\n        position: absolute;\n        top: 0;\n        right: 0;\n        padding: 20px;\n        cursor: pointer;\n}\n#notifications .notification-container[data-v-5c3bac95] {\n        margin-top: 20px;\n        padding-bottom: 20px;\n}\n#notifications .close-button[data-v-5c3bac95] {\n        display: block;\n        position: absolute;\n        bottom: 20px;\n        left: 0;\n        margin-left: 20px;\n        width: calc(100% - 40px);\n}\n}\n", ""]);
 
 /***/ }),
 /* 181 */
@@ -29731,7 +29752,7 @@ exports.push([module.i, "\n.status-bar[data-v-6a27a1aa] {\n  -webkit-box-align: 
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)();
-exports.push([module.i, "", ""]);
+exports.push([module.i, "\n.icon[data-v-7a951d69]::after {\n  height: 18px;\n  width: 18px;\n  top: -5px;\n  right: -5px;\n}\n.no-badge .icon[data-v-7a951d69]::after {\n  visibility: hidden;\n}\n", ""]);
 
 /***/ }),
 /* 183 */
@@ -29759,7 +29780,7 @@ exports.push([module.i, "\n.form_title[data-v-f5984f46] {\n  font-size: 20px;\n 
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)();
-exports.push([module.i, "\n.notification[data-v-fa13e352] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  border-left: 5px solid #FFA000 !important;\n}\n.notification .notification-icon[data-v-fa13e352] {\n    width: 15%;\n    display: block;\n    text-align: center;\n    vertical-align: center;\n    line-height: 66px;\n}\n.notification .notification-text[data-v-fa13e352] {\n    display: block;\n    width: 70%;\n}\n.notification .notification-text span[data-v-fa13e352] {\n      display: block;\n      padding-top: 5px;\n}\n.notification-title[data-v-fa13e352] {\n  font-weight: bold;\n  font-size: 18px;\n}\n", ""]);
+exports.push([module.i, "\n.notification[data-v-fa13e352] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  border-left: 5px solid #FFA000 !important;\n  position: relative;\n}\n.notification .close-icon[data-v-fa13e352] {\n    position: absolute;\n    top: 0;\n    right: 0;\n    padding: 5px;\n    -webkit-box-align: start;\n        -ms-flex-align: start;\n            align-items: flex-start;\n    cursor: pointer;\n}\n@media screen and (max-width: 549px) {\n.notification .close-icon[data-v-fa13e352] {\n        padding: 8px;\n}\n}\n.notification .notification-icon[data-v-fa13e352] {\n    width: 15%;\n    display: block;\n    text-align: center;\n    vertical-align: center;\n    line-height: 66px;\n}\n.notification .notification-text[data-v-fa13e352] {\n    display: block;\n    width: 70%;\n}\n.notification .notification-text span[data-v-fa13e352] {\n      display: block;\n      padding-top: 5px;\n}\n.notification-title[data-v-fa13e352] {\n  font-weight: bold;\n  font-size: 18px;\n}\n", ""]);
 
 /***/ }),
 /* 187 */
@@ -41463,6 +41484,7 @@ module.exports = Component.exports
 
 /* styles */
 __webpack_require__(228)
+__webpack_require__(241)
 
 var Component = __webpack_require__(1)(
   /* script */
@@ -42077,7 +42099,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": true
       }
     })
-  }))], 1) : _vm._e()
+  })), _vm._v(" "), _c('v-btn', {
+    staticClass: "close-button",
+    attrs: {
+      "flat": ""
+    },
+    nativeOn: {
+      "click": function($event) {
+        _vm.close($event)
+      }
+    }
+  }, [_vm._v("\n        Close\n    ")])], 1) : _vm._e()
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -42167,6 +42199,9 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('v-btn', {
+    class: ['notification-btn', {
+      'no-badge': _vm.badgeToggleClass
+    }],
     attrs: {
       "icon": "",
       "light": ""
@@ -42176,9 +42211,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.click($event)
       }
     }
-  }, [_c('div', [_c('v-icon', {
+  }, [_c('v-icon', {
+    directives: [{
+      name: "badge",
+      rawName: "v-badge",
+      value: ({
+        value: _vm.unreadCount,
+        overlap: true
+      }),
+      expression: "{ value: unreadCount, overlap: true}"
+    }],
     staticClass: "icon"
-  }, [_vm._v("assignment")])], 1)])
+  }, [_vm._v("assignment")])], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -42386,7 +42430,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "notification-title"
   }, [_vm._v(_vm._s(_vm.notification.title))]), _vm._v(" "), _c('span', {
     staticClass: "notification-description"
-  }, [_vm._v(_vm._s(_vm.notification.description))])])], 1)
+  }, [_vm._v(_vm._s(_vm.notification.description))])]), _vm._v(" "), _c('v-icon', {
+    staticClass: "close-icon",
+    attrs: {
+      "light": ""
+    }
+  }, [_vm._v("close")])], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -54278,6 +54327,41 @@ module.exports = function(module) {
 __webpack_require__(130);
 module.exports = __webpack_require__(131);
 
+
+/***/ }),
+/* 238 */,
+/* 239 */,
+/* 240 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)();
+exports.push([module.i, "\n.notification-btn .btn__content{\n    overflow: visible!important;\n}\n", ""]);
+
+/***/ }),
+/* 241 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(240);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("0a3a752d", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-7a951d69\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=1!./NotificationButton.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-7a951d69\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=1!./NotificationButton.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
 
 /***/ })
 /******/ ]);
