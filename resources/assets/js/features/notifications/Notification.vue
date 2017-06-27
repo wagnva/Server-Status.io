@@ -8,15 +8,24 @@
             <span class="notification-description">{{notification.description}}</span>
         </div>
 
-        <v-icon class="close-icon" light>close</v-icon>
+        <v-icon class="close-icon" light @click="close">close</v-icon>
     </div>
 </template>
 
 <script>
     export default {
+        methods: {
+            close(){
+                this.$store.commit("notifications/close", this.id);
+            }
+        },
         props: {
             notification: {
                 type: Object,
+                required: true
+            },
+            id: {
+                type: Number,
                 required: true
             }
         }

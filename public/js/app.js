@@ -28446,9 +28446,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    methods: {
+        close() {
+            this.$store.commit("notifications/close", this.id);
+        }
+    },
     props: {
         notification: {
             type: Object,
+            required: true
+        },
+        id: {
+            type: Number,
             required: true
         }
     }
@@ -29456,6 +29465,9 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
         },
         markAllAsRead: (state, getters) => {
             state.data.forEach(element => element.read = true);
+        },
+        close: (state, id) => {
+            state.data[id].visible = false;
         }
     },
     getters: {
@@ -42091,12 +42103,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("close")]), _vm._v(" "), _c('div', {
     staticClass: "notification-container"
-  }, _vm._l((_vm.visible), function(notification) {
+  }, _vm._l((_vm.visible), function(notification, index) {
     return _c('notification', {
       key: notification,
       attrs: {
         "notification": notification,
-        "value": true
+        "id": index
       }
     })
   })), _vm._v(" "), _c('v-btn', {
@@ -42434,6 +42446,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "close-icon",
     attrs: {
       "light": ""
+    },
+    on: {
+      "click": _vm.close
     }
   }, [_vm._v("close")])], 1)
 },staticRenderFns: []}

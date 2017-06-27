@@ -27,6 +27,9 @@ export default {
         },
         markAllAsRead: (state, getters) => {
             state.data.forEach(element => element.read = true);
+        },
+        close: (state, id) => {
+            state.data[id].visible = false;
         }
     },
     getters: {
