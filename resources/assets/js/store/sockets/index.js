@@ -10,21 +10,7 @@ export default function(echo, store, userID){
              * 2. currentStatus: the new status
              */
 
-            //add the status to the status module
-            store.commit("statuses/add", e.currentStatus);
-
-            //add the status id to the server
-            store.commit("server/addStatus", {
-                serverID: e.forServer,
-                statusID: e.currentStatus.id
-            });
-
-            //test remove later
-            //add a notification
-            store.commit("notifications/add", {
-                title: "Server title",
-                description: "The server status changed to: " + e.currentStatus.status
-            });
+            store.dispatch("server/addStatus", e);
 
         });
 

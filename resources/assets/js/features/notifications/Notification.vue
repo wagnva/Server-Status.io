@@ -1,11 +1,11 @@
 <template>
-    <div class="notification mt-1 mr-2 ml-2 amber">
+    <div :class="styles">
         <v-icon class="notification-icon" light>
             {{notification.icon}}
         </v-icon>
         <div class="notification-text grey--text text--lighten-4 pb-1 pt-1 pl-1">
             <span class="notification-title">{{notification.title}}</span>
-            <span class="notification-description">{{notification.description}}</span>
+            <span class="notification-description pb-1">{{notification.description}}</span>
         </div>
 
         <v-icon class="close-icon" light @click="close">close</v-icon>
@@ -16,16 +16,21 @@
     export default {
         methods: {
             close(){
-                this.$store.commit("notifications/close", this.id);
+                this.$store.commit("notifications/close", this.notification.id);
+            }
+        },
+        computed: {
+            styles(){
+                let styles = ["notification", "mt-1", "mr-2", "ml-2"];
+
+                styles.push("mode-" + this.notification.mode);
+
+                return styles;
             }
         },
         props: {
             notification: {
                 type: Object,
-                required: true
-            },
-            id: {
-                type: Number,
                 required: true
             }
         }
@@ -35,8 +40,17 @@
 <style lang="scss" scoped>
     .notification{
         display: flex;
-        border-left: 5px solid #FFA000!important;
         position: relative;
+
+        &.mode-info{
+            background: #FFCA28;
+            border-left: 5px solid #FFC107;
+        }
+
+        &.mode-error{
+            background: #EF5350;
+            border-left: 5px solid #D32F2F!important;
+        }
 
         .close-icon{
             position: absolute;

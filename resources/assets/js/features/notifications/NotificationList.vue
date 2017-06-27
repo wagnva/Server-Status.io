@@ -6,7 +6,7 @@
         <v-icon class="close-icon" large @click="close">close</v-icon>
 
         <div class="notification-container">
-            <notification v-for="(notification, index) in visible" :notification="notification" :id="index" :key="notification">
+            <notification v-for="notification in visible" :notification="notification" :key="notification">
 
             </notification>
         </div>

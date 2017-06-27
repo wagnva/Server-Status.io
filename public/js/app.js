@@ -28448,16 +28448,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     methods: {
         close() {
-            this.$store.commit("notifications/close", this.id);
+            this.$store.commit("notifications/close", this.notification.id);
+        }
+    },
+    computed: {
+        styles() {
+            let styles = ["notification", "mt-1", "mr-2", "ml-2"];
+
+            styles.push("mode-" + this.notification.mode);
+
+            return styles;
         }
     },
     props: {
         notification: {
             type: Object,
-            required: true
-        },
-        id: {
-            type: Number,
             required: true
         }
     }
@@ -29443,7 +29448,9 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
             description: "Status changed ...",
             icon: "error_outline",
             read: false,
-            visible: true
+            visible: true,
+            id: 0,
+            mode: "info"
         }],
         windowOpen: false
     },
@@ -29454,7 +29461,9 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
                 description: params.description || "",
                 icon: params.icon || "error_outline",
                 read: false,
-                visible: true
+                visible: true,
+                id: state.data.length, //id of the notification: basically just the index
+                mode: params.mode || "info"
             });
         },
         setWindow: (state, open) => {
@@ -29583,6 +29592,35 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
             state.data[params.serverID].statuses.push(params.statusID);
         }
     },
+    actions: {
+        addStatus({ commit, getters }, params) {
+            /*
+                Takes care of adding a new status to a server
+                Adds the id to the server, the status to the status store, and also dispatches a notification
+             */
+
+            //add the status to the status module
+            commit("statuses/add", params.currentStatus, { root: true });
+
+            //add the status id to the server
+            commit("addStatus", {
+                serverID: params.forServer,
+                statusID: params.currentStatus.id
+            });
+
+            //adds a notification if the status changed to "offline"
+            if (params.currentStatus.status === "offline") {
+                //get the server title
+                let title = getters.withId(params.forServer).title;
+
+                commit("notifications/add", {
+                    title: title,
+                    description: "The server status changed to: " + params.currentStatus.status,
+                    mode: "error"
+                }, { root: true });
+            }
+        }
+    },
     namespaced: true
 });
 
@@ -29706,21 +29744,7 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
          * 2. currentStatus: the new status
          */
 
-        //add the status to the status module
-        store.commit("statuses/add", e.currentStatus);
-
-        //add the status id to the server
-        store.commit("server/addStatus", {
-            serverID: e.forServer,
-            statusID: e.currentStatus.id
-        });
-
-        //test remove later
-        //add a notification
-        store.commit("notifications/add", {
-            title: "Server title",
-            description: "The server status changed to: " + e.currentStatus.status
-        });
+        store.dispatch("server/addStatus", e);
     });
 });
 
@@ -29792,7 +29816,7 @@ exports.push([module.i, "\n.form_title[data-v-f5984f46] {\n  font-size: 20px;\n 
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)();
-exports.push([module.i, "\n.notification[data-v-fa13e352] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  border-left: 5px solid #FFA000 !important;\n  position: relative;\n}\n.notification .close-icon[data-v-fa13e352] {\n    position: absolute;\n    top: 0;\n    right: 0;\n    padding: 5px;\n    -webkit-box-align: start;\n        -ms-flex-align: start;\n            align-items: flex-start;\n    cursor: pointer;\n}\n@media screen and (max-width: 549px) {\n.notification .close-icon[data-v-fa13e352] {\n        padding: 8px;\n}\n}\n.notification .notification-icon[data-v-fa13e352] {\n    width: 15%;\n    display: block;\n    text-align: center;\n    vertical-align: center;\n    line-height: 66px;\n}\n.notification .notification-text[data-v-fa13e352] {\n    display: block;\n    width: 70%;\n}\n.notification .notification-text span[data-v-fa13e352] {\n      display: block;\n      padding-top: 5px;\n}\n.notification-title[data-v-fa13e352] {\n  font-weight: bold;\n  font-size: 18px;\n}\n", ""]);
+exports.push([module.i, "\n.notification[data-v-fa13e352] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  position: relative;\n}\n.notification.mode-info[data-v-fa13e352] {\n    background: #FFCA28;\n    border-left: 5px solid #FFC107;\n}\n.notification.mode-error[data-v-fa13e352] {\n    background: #EF5350;\n    border-left: 5px solid #D32F2F !important;\n}\n.notification .close-icon[data-v-fa13e352] {\n    position: absolute;\n    top: 0;\n    right: 0;\n    padding: 5px;\n    -webkit-box-align: start;\n        -ms-flex-align: start;\n            align-items: flex-start;\n    cursor: pointer;\n}\n@media screen and (max-width: 549px) {\n.notification .close-icon[data-v-fa13e352] {\n        padding: 8px;\n}\n}\n.notification .notification-icon[data-v-fa13e352] {\n    width: 15%;\n    display: block;\n    text-align: center;\n    vertical-align: center;\n    line-height: 66px;\n}\n.notification .notification-text[data-v-fa13e352] {\n    display: block;\n    width: 70%;\n}\n.notification .notification-text span[data-v-fa13e352] {\n      display: block;\n      padding-top: 5px;\n}\n.notification-title[data-v-fa13e352] {\n  font-weight: bold;\n  font-size: 18px;\n}\n", ""]);
 
 /***/ }),
 /* 187 */
@@ -42103,12 +42127,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("close")]), _vm._v(" "), _c('div', {
     staticClass: "notification-container"
-  }, _vm._l((_vm.visible), function(notification, index) {
+  }, _vm._l((_vm.visible), function(notification) {
     return _c('notification', {
       key: notification,
       attrs: {
-        "notification": notification,
-        "id": index
+        "notification": notification
       }
     })
   })), _vm._v(" "), _c('v-btn', {
@@ -42430,7 +42453,7 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "notification mt-1 mr-2 ml-2 amber"
+    class: _vm.styles
   }, [_c('v-icon', {
     staticClass: "notification-icon",
     attrs: {
@@ -42441,7 +42464,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('span', {
     staticClass: "notification-title"
   }, [_vm._v(_vm._s(_vm.notification.title))]), _vm._v(" "), _c('span', {
-    staticClass: "notification-description"
+    staticClass: "notification-description pb-1"
   }, [_vm._v(_vm._s(_vm.notification.description))])]), _vm._v(" "), _c('v-icon', {
     staticClass: "close-icon",
     attrs: {

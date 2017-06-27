@@ -5,7 +5,9 @@ export default {
             description: "Status changed ...",
             icon: "error_outline",
             read: false,
-            visible: true
+            visible: true,
+            id: 0,
+            mode: "info"
         }],
         windowOpen: false
     },
@@ -16,7 +18,9 @@ export default {
                 description: params.description || "",
                 icon: params.icon || "error_outline",
                 read: false,
-                visible: true
+                visible: true,
+                id: state.data.length, //id of the notification: basically just the index
+                mode: params.mode || "info"
             });
         },
         setWindow: (state, open) => {
