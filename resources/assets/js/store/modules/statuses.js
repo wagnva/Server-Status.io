@@ -4,7 +4,6 @@ export default {
     },
     getters: {
         withId: (state) => (id) => {
-            console.log("[statuses/withId]");
             return state.data[id] || {};
         },
         forServer: (state) => (_id) => {
@@ -36,7 +35,6 @@ export default {
                 return 0;
 
             })[0] || {}; //return the first element -> the newest element or just an empty object
-
         }
     },
     mutations: {

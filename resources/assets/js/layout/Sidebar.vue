@@ -62,8 +62,6 @@
             drawerChange(param){
                 ///called when the drawer state changes
                 this.$store.commit("setSidebar", param);
-
-                console.log(this.items);
             }
         },
         computed: {

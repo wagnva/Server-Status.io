@@ -20,8 +20,8 @@
             <v-card-row>
                 {{server.description}}
             </v-card-row>
-            <v-card-row class="green mt-5 status-bar pl-1 pr-1">
-                <span class="white--text status pt-1">Online</span>
+            <v-card-row :class="statusBarStyles">
+                <span class="white--text status pt-1">{{currentStatus.status}}</span>
                 <span class="white--text date pb-2">{{currentStatusDate}}</span>
             </v-card-row>
         </v-card-text>
@@ -51,6 +51,11 @@
                 let createdAt = this.moment.utc(this.currentStatus.created_at);
                 return createdAt.fromNow();*/
                 return this.moment.utc(this.currentStatus.created_at).local().format("HH:mm:ss");
+            },
+            statusBarStyles(){
+                let styles = ["mt-5 status-bar pl-1 pr-1"];
+                styles.push("mode-" + this.currentStatus.status);
+                return styles;
             }
         },
         props: {
@@ -66,6 +71,19 @@
     .status-bar{
         align-items: center;
         flex-direction: column;
+
+        &.mode-online{
+            background: #00C853;
+        }
+
+        &.mode-offline{
+            background: #E53935;
+        }
+
+        &.mode-unknown{
+            background: #90A4AE;
+        }
+
         span{
             text-align: center;
             width: 100%;
