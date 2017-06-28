@@ -5,7 +5,6 @@ import VueRouter from "vue-router"
 import Vuetify from "vuetify"
 import Vuex, {mapState, mapGetters} from "vuex"
 import Validator from "./helper/validator"
-import ArrayHelper from "./helper/array"
 import Normalizer from "./helper/normalizer"
 import * as Moment from "moment"
 
@@ -17,18 +16,19 @@ Vue.use(Vuex);
 window.Vue = Vue;
 window.mapState = mapState;
 window.mapGetters = mapGetters;
-window.array = ArrayHelper;
 window.Normalizer = Normalizer;
 window.moment = Moment;
 
 Vue.prototype.$http = axios;
 Vue.prototype.is = Validator;
-Vue.prototype.array = ArrayHelper;
 Vue.prototype.Normalizer = Normalizer;
 Vue.prototype.Echo = window.Echo;
 Vue.prototype.moment = Moment;
 
-Array.prototype.helper = ArrayHelper;
+//helper method that prints the actual values of a vue reactive object
+console.vue = function(...val){
+    this.log(...(val.map(element => JSON.parse(JSON.stringify(element)))));
+};
 
 Vue.component("base-layout", require("./layout/BaseLayout.vue"));
 Vue.component("snackbar-manager", require("./components/SnackbarManager.vue"));
@@ -91,4 +91,3 @@ const app = new Vue({
 
 //setup the sockets (live updating)
 sockets(window.Echo, store, userData.id);
-

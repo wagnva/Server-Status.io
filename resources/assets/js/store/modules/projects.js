@@ -18,10 +18,7 @@ export default {
     },
     getters: {
         withId: (state, getters) => (id) => {
-            let projects = state.data;
-            return projects.helper.find(projects, element => {
-                return element.id === id
-            });
+            return state.data.find(element => element.id == id);
         },
         map: (state, getters, rootState, rootGetters) => (project) =>{
             if(!project.server){return project;}
