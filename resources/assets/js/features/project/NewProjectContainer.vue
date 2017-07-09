@@ -32,7 +32,8 @@
             <v-flex xs12>
                 <v-btn
                     light
-                    class="amber darken-1 submit"
+                    large
+                    class="amber darken-1 submit white--text"
                     v-on:click.native="onSubmit"
                     :loading="loading"
                     type="submit">

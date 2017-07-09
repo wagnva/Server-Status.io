@@ -5,26 +5,26 @@
             hover
             v-on:click="redirectToServerPage">
 
-        <v-card-row class="title-row">
-            <v-card-title class="pt-3 pb-2">
-                <span class="">
-                    {{server.title}}
+        <v-layout row wrap>
+            <v-flex xs12>
+                <span class="grey--text text--darken-2">
+                    <v-card-title>
+                        <h3 class="mb-0 pb-0 pl-2">{{server.title}}</h3>
+                    </v-card-title>
                 </span>
+            </v-flex>
 
-                <v-spacer></v-spacer>
+            <v-flex xs12>
+                <v-card-text class="pt-0">
+                    {{server.description}}
+                </v-card-text>
+            </v-flex>
 
-            </v-card-title>
-        </v-card-row>
-
-        <v-card-text>
-            <v-card-row>
-                {{server.description}}
-            </v-card-row>
-            <v-card-row :class="statusBarStyles">
-                <span class="white--text status pt-1">{{currentStatus.status}}</span>
-                <span class="white--text date pb-2">{{currentStatusDate}}</span>
-            </v-card-row>
-        </v-card-text>
+            <v-flex xs12 :class="statusBarStyles" class="status-bar ml-1 mr-1 mt-0 pl-1 pr-1">
+                <v-flex xs12 class="white--text status pt-1">{{currentStatus.status}}</v-flex>
+                <v-flex xs12 class="white--text date pb-2">{{currentStatusDate}}</v-flex>
+            </v-flex>
+        </v-layout>
     </v-card>
 
 </template>
@@ -53,9 +53,7 @@
                 return this.moment.utc(this.currentStatus.created_at).local().format("HH:mm:ss");
             },
             statusBarStyles(){
-                let styles = ["mt-5 status-bar pl-1 pr-1"];
-                styles.push("mode-" + this.currentStatus.status);
-                return styles;
+                return "mode-" + this.currentStatus.status;
             }
         },
         props: {
@@ -84,7 +82,7 @@
             background: #90A4AE;
         }
 
-        span{
+        .flex{
             text-align: center;
             width: 100%;
         }
@@ -96,9 +94,5 @@
             font-style: italic;
             line-height: 1;
         }
-    }
-
-    .title-row{
-        //border-bottom: 1px solid #FFB300;
     }
 </style>

@@ -4,9 +4,9 @@
         <div>
             <sidebar></sidebar>
 
-            <v-toolbar fixed class="amber darken-2" light>
+            <v-toolbar fixed dark class="amber darken-2">
                 <v-toolbar-side-icon light @click.native.stop="switchSidebar"></v-toolbar-side-icon>
-                <v-toolbar-title>Server-Status.io</v-toolbar-title>
+                <v-toolbar-title class="white--text">Server-Status.io</v-toolbar-title>
                 <v-spacer></v-spacer>
 
                 <notification-button></notification-button>
