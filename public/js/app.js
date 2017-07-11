@@ -29590,8 +29590,8 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
                 statusID: params.currentStatus.id
             });
 
-            //adds a notification if the status changed to "offline"
-            if (params.currentStatus.status === "offline") {
+            //adds a notification if the status changed to "Offline"
+            if (params.currentStatus.status === "Offline") {
                 //get the server title
                 let title = getters.withId(params.forServer).title;
 
@@ -29716,7 +29716,7 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = (function (echo, store, userID) {
 
-    echo.channel("App.User." + userID).listen("ServerStatusChangeEvent", e => {
+    echo.private("App.User." + userID).listen("ServerStatusChangeEvent", e => {
 
         /*
          * The ServerStatusChangeEvent tells us, that a new status was added to a server
@@ -29772,18 +29772,12 @@ exports = module.exports = __webpack_require__(3)();
 exports.push([module.i, "\n.status-bar[data-v-6a27a1aa] {\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n}\n.status-bar.mode-online[data-v-6a27a1aa] {\n    background: #00C853;\n}\n.status-bar.mode-offline[data-v-6a27a1aa] {\n    background: #E53935;\n}\n.status-bar.mode-unknown[data-v-6a27a1aa] {\n    background: #90A4AE;\n}\n.status-bar .flex[data-v-6a27a1aa] {\n    text-align: center;\n    width: 100%;\n}\n.status-bar .status[data-v-6a27a1aa] {\n    font-size: 18px;\n}\n.status-bar .date[data-v-6a27a1aa] {\n    font-size: 16px;\n    font-style: italic;\n    line-height: 1;\n}\n", ""]);
 
 /***/ }),
-/* 182 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)();
-exports.push([module.i, "\n.notification-btn .btn__content{\n    overflow: visible!important;\n}\n", ""]);
-
-/***/ }),
+/* 182 */,
 /* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(3)();
-exports.push([module.i, "\n.icon[data-v-7a951d69]::after {\n  height: 18px;\n  width: 18px;\n  top: -5px;\n  right: -5px;\n}\n.no-badge .icon[data-v-7a951d69]::after {\n  visibility: hidden;\n}\n", ""]);
+exports.push([module.i, "", ""]);
 
 /***/ }),
 /* 184 */
@@ -41516,7 +41510,6 @@ module.exports = Component.exports
 
 /* styles */
 __webpack_require__(231)
-__webpack_require__(230)
 
 var Component = __webpack_require__(1)(
   /* script */
@@ -45178,32 +45171,7 @@ if(false) {
 }
 
 /***/ }),
-/* 230 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(182);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(4)("0a3a752d", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-7a951d69\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=1!./NotificationButton.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-7a951d69\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=1!./NotificationButton.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
+/* 230 */,
 /* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 

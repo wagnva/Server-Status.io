@@ -1,6 +1,6 @@
 export default function(echo, store, userID){
 
-    echo.channel("App.User." + userID)
+    echo.private("App.User." + userID)
         .listen("ServerStatusChangeEvent", (e) => {
 
             /*

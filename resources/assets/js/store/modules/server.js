@@ -40,8 +40,8 @@ export default {
             });
 
 
-            //adds a notification if the status changed to "offline"
-            if(params.currentStatus.status === "offline"){
+            //adds a notification if the status changed to "Offline"
+            if(params.currentStatus.status === "Offline"){
                 //get the server title
                 let title = getters.withId(params.forServer).title;
 

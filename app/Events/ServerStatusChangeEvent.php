@@ -38,6 +38,6 @@ class ServerStatusChangeEvent implements ShouldBroadcast
     public function broadcastOn()
     {
         $id = $this->userID;
-        return ["App.User.$id"];
+        return new PrivateChannel("App.User.$id");
     }
 }
