@@ -1,6 +1,6 @@
 <template>
     <div :class="styles">
-        <v-icon class="notification-icon" light>
+        <v-icon class="notification-icon">
             {{notification.icon}}
         </v-icon>
         <div class="notification-text grey--text text--lighten-4 pb-1 pt-1 pl-1">
@@ -8,7 +8,7 @@
             <span class="notification-description pb-1">{{notification.description}}</span>
         </div>
 
-        <v-icon class="close-icon" light @click="close">close</v-icon>
+        <v-icon class="close-icon" @click="close">close</v-icon>
     </div>
 </template>
 

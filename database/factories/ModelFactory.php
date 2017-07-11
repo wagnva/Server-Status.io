@@ -34,7 +34,7 @@ $factory->define(\App\Server::class, function(\Faker\Generator $faker){
     return [
         "title" => $faker->text(8),
         "description" => $faker->text(100),
-        "address" => "127.0.0.1:8001",
+        "address" => $faker->randomElement(["www.google.de", "www.spiegel.de", "www.stackoverflow.com", "www.blog.server-status.io"]),
         "timeBetweenRepeats" => 1
     ];
 });

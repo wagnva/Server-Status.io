@@ -26,6 +26,14 @@ class ServerCheck extends Command
     protected $description = "Takes care of checking the server, by sending a request to the ping nodejs server";
 
     /**
+     * The list of server nodes, that can be used to check a client's server status.
+     * @var array
+     */
+    private $nodes = [
+        ["name" => "local", "address" => "localhost:8001"]
+    ];
+
+    /**
      * Create a new command instance.
      *
      */
@@ -55,15 +63,15 @@ class ServerCheck extends Command
         foreach($server as $item){
 
             //get their new status
-            //todo implement actually getting their status
-            sleep(1);
+            $response = $this->request($this->nodes[0], $item);
 
             //save the status
             $status = $item->newStatus(
-                factory(ServerStatus::class, 1)->make([
+                new ServerStatus([
                     "server_id" => $item->id,
-                    "user_id" => $item->user_id
-                ])->first()
+                    "user_id" => $item->user_id,
+                    "status" => $response
+                ])
             );
 
             //tell the client
@@ -76,5 +84,32 @@ class ServerCheck extends Command
         $bar->finish();
         $bar->clear();
         $this->info("  > All server were checked successfully");
+    }
+
+
+    /**
+     * Makes a POST request to the $node server, requesting the new status of the server
+     * @param $node array the server, that the request gets send to
+     * @param $server \App\Server information of the server
+     * @return string the response from the server
+     */
+    private function request(array $node, Server $server){
+        $url = $node["address"] . "/check";
+        $ch = curl_init();
+
+        //url
+        curl_setopt($ch, CURLOPT_URL, $url);
+        //POST
+        curl_setopt($ch, CURLOPT_POST, 1);
+        //args
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array('address' => $server->address)));
+        //receive server response
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+
+        curl_close($ch);
+
+        return $response;
     }
 }
