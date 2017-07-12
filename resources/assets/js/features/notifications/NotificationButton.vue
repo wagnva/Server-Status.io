@@ -33,21 +33,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .icon::after{
-        height: 18px;
-        width: 18px;
-        top: -5px;
-        right: -5px;
-    }
-    .no-badge{
-        .icon::after{
-            visibility: hidden;
-        }
-    }
 </style>
 
-<style>
-    .notification-btn .btn__content{
-        overflow: visible!important;
-    }
-</style>
